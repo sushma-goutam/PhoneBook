@@ -1,3 +1,5 @@
+![Django CI](https://github.com/sushma-goutam/PhoneBook/workflows/Django%20CI/badge.svg?branch=master)
+
 # Django PhoneBook
 
 A PhoneBook created with Django. It allows you to create, update, retrieve and delete a contact.
