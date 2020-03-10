@@ -1,33 +1,53 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'contactsapp/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'contactsapp/css/bootstrap-theme.min.css' %}">
-    <link rel="stylesheet" href="{% static 'contactsapp/css/main.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <title>Django Phone Book</title>
-</head>
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            CRUD Operations Sample</a></div>
-</nav>
+        <link rel="stylesheet" href="{% static 'contactsapp/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'contactsapp/css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'contactsapp/css/main.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <title>Django Phone Book</title>
+    </head>
 
-<div class="col-md-3"></div>
-<div class="col-md-6"></div>
-<h3 class="text_primary">My PhoneBook</h3>
-<hr style="border-top:1px dotted #000;"/>
-{% block body %}
-{% endblock %}
-</div>
-</body>
+    <body>
+        <nav class="navbar navbar-dark navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header" align="right">
+                    <a class="navbar-brand" href="">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </a>
+                    <a class="navbar-brand" href="/">CRUD Operations Sample</a>
+                </div>
+
+                {% block navigation %}
+                {% endblock %}
+            </div>
+        </nav>
+
+        <div class="col-md-3"></div>
+            <div class="col-md-6"></div>
+            <h3 class="text_primary">My PhoneBook</h3>
+            <hr style="border-top:1px dotted #000;"/>
+        </div>
+
+        <!-- Show the main contents -->
+        <main class="container">
+            {% block content %}
+            {% endblock %}
+        </main> <!-- /container -->
+
+    </body>
+    {% block script %}
+    {% endblock %}
+</html>
 
 
 

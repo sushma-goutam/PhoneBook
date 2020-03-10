@@ -58,7 +58,6 @@ ROOT_URLCONF = 'PhoneBook.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [TEMPLATE_DIR],
         'DIRS': [#os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'contactsapp', 'templates', 'contactsapp'),
                 ],
@@ -128,5 +127,5 @@ STATIC_URL = '/static/'
 # Adding static folder path fixed the below error
 # [09/Mar/2020 13:39:35] "GET /static/contactsapp/css/main.css HTTP/1.1" 404 1698
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "../static"),
 ]

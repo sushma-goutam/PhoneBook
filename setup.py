@@ -32,10 +32,9 @@ setup(
     author_email='sushma.goutam@gmail.com',
     url='https://github.com/sushma-goutam/PhoneBook',
     packages=server_packages,
-    package_dir={'PhoneBook': 'PhoneBook'},
+    #package_dir={'PhoneBook': 'src'},
     package_data=server_package_data,
     include_package_data=True,
-    #data_files=[('Lib//site-packages', ['db.sqlite3', 'manage.py'])],
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     install_requires=[
@@ -43,8 +42,7 @@ setup(
     ],
     license="BSD",
     zip_safe=False,
-    #py_modules=['src/PhoneBook/__main__'],
-    py_modules=['src/manage'],
+    py_modules=['src/__main__'],
     keywords='PhoneBook',
     classifiers=[
         'Development Status :: 4 - Beta',
