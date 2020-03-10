@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test
+        python "https://github.com/sushma-goutam/PhoneBook/tree/master/src/manage.py" test
