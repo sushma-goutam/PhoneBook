@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from django.conf.urls import url
-from contactsapp.api import ContactList, ContactDetail
+from contactsapp.api import ContactList, ContactDetail, UserAuthentication
 
 from . import views
 
@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_redirect, name='index_redirect'),
     path('contacts/', include('contactsapp.urls')),
+    url(r'^api/login/$', views.login),
     url(r'^api/contact_list/$', ContactList.as_view(), name='contact_list'),
     url(r'^api/contact_list/(?P<contact_id>\d+)/$', ContactDetail.as_view(), name='contact_list'),
+    url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
 ]
