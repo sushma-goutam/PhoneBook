@@ -16,10 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf.urls import url
+from contactsapp.api import ContactList, ContactDetail
+
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_redirect, name='index_redirect'),
     path('contacts/', include('contactsapp.urls')),
+    url(r'^api/contact_list/$', ContactList.as_view(), name='contact_list'),
+    url(r'^api/contact_list/(?P<contact_id>\d+)/$', ContactDetail.as_view(), name='contact_list'),
 ]

@@ -163,6 +163,8 @@ Code:
             pass
         return HttpResponse("<h1>dataflair<br>Session Data cleared</h1>")
 
-Don’t worry if your cookie didn’t delete because we use this method only to delete your data in the Django database and not the session ID and cookie itself.
+Don’t worry if your cookie didn’t delete because we use this method only to delete your data in the Django database and 
+not the session ID and cookie itself.
 
-To delete the session related cookies completely, we use the flush() function, although sessions delete when the browser is closed.
+To delete the session related cookies completely, we use the flush() function, 
+although sessions delete when the browser is closed.
