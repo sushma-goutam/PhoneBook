@@ -45,4 +45,23 @@ def create_many_contacts(count):
         create_contact(i)
 
 
-create_contact()
+def edit_contact(contact_id):
+    url = f"{URL}/api/contact_list/{contact_id}/"   # remember to put a '/' after id
+    data = {
+        "id": contact_id,
+        "first_name": "Mayank",
+        "last_name": "Singh",
+        "phone_number": "234567"
+    }
+    header = {'Authorization': f'Token {get_token()}'}
+    response = requests.put(url, data=data, headers=header)
+    print(response.text, response.status_code)
+
+
+def delete_contact(contact_id):
+    url = f"{URL}/api/contact_list/{contact_id}/"   # remember to put a '/' after id
+    header = {'Authorization': f'Token {get_token()}'}
+    response = requests.delete(url, headers=header)
+    print(response.status_code)
+
+delete_contact(6)
