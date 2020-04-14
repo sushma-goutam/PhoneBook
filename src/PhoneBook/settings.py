@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import logging
+import socket
+from logging.handlers import SysLogHandler
+
+import logzero
+from logzero import logger
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -147,4 +153,86 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+}
+
+# Logging configurations
+CONSOLE_LOGGING_FILE_LOCATION = os.path.join(BASE_DIR, 'django-server.log')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "%(asctime)s %(levelname)-8s %(module)s [%(pathname)s:%(lineno)d] %(name)s.%("
+                      "funcName)s %(message)s",
+            'style': '%',
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'my_formatter': {
+            'format': "%(asctime)s %(levelname)s %(module)s [%(name)s:%(lineno)s] %(message)s",
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': CONSOLE_LOGGING_FILE_LOCATION,
+            'mode': 'a',
+            'encoding': 'utf-8',
+            'formatter': 'my_formatter',
+            'backupCount': 3,
+            'maxBytes': 10485760,
+        },
+        'syslog': {
+            'level':'INFO',
+            'class':'logging.handlers.SysLogHandler',
+            'formatter': 'verbose',
+            #'facility': SysLogHandler.LOG_LOCAL2,
+            'facility': SysLogHandler.LOG_USER,
+            # Address should be set according to underlying OS
+            #'address': '/dev/log',     # Use it only in a linux system
+            'address': ('localhost',1024),
+            'socktype': socket.SOCK_DGRAM,
+        },
+    },
+    'loggers': {
+        # Root logger: All INFO level messages (or higher) will be printed to the console
+        'custom': {
+            'level': 'INFO',
+            'handlers': ['console', 'file'],
+        },
+        # Passes all messages to the console and file handler.
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        # Log messages related to requests received by the django server.
+        'django.server': {
+            'propagate': True,
+        },
+        # Log messages related to the rendering of templates.
+        'django.template': {
+            'handlers': ['file'],
+            'propagate': False,
+        },
+        'gclogger': {
+            'handlers': ['syslog'],
+            'level': 'INFO',
+            'propagate': True,
+            },
+    },
 }
