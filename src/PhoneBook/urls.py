@@ -27,11 +27,11 @@ schema_view = get_swagger_view(title="PhoneBook")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_redirect, name='index_redirect'),
-    #path('', schema_view),
     path('contacts/', include('contactsapp.urls')),
     url(r'^api/login/$', views.login),
     url(r'^api/contact_list/$', ContactList.as_view(), name='contact_list'),
     url(r'^api/contact_list/(?P<contact_id>\d+)/$', ContactDetail.as_view(), name='contact_list'),
     url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
     url(r'^api/$', schema_view),
+    path('accounts/', include('rest_framework.urls')),  # Swagger login
 ]

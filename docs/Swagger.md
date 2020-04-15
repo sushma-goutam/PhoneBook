@@ -1,14 +1,17 @@
 # Using Swagger with Django
 
-* Include new project dependency
+### Include new project dependency
+
+##### Note: 'django-rest-swagger' is not maintained anymore. Update it to use newer alternative.
+(They suggest switching to drf-yasg )
 
 Add 'django-rest-swagger' to 'requirements.txt' file 
 
-* Install it in python development environment
+### Install it in python development environment
 ``` 
 pip install django-rest-swagger
 ``` 
-* Update 'settings.py'
+### Update 'settings.py'
 
 Modify installed app list and Rest Framework config in 'settings.py'
 ``` 
@@ -25,7 +28,7 @@ REST_FRAMEWORK = {
 }
 ``` 
 
-* Add a path to test swagger UI
+### Add a path to test swagger UI
 
 Modify main project's urls.py and add the below lines
 ``` 
@@ -39,7 +42,7 @@ urlpatterns = [
 ]
 ``` 
 
-* Modify obsolete entry in rest-framework-swagger template
+### Modify obsolete entry in rest-framework-swagger template
 ```
 Open '\env\Lib\site-packages\rest_framework_swagger\templates\rest_framework_swagger\index.html'
 In line 2, replace 
@@ -47,11 +50,11 @@ In line 2, replace
 {% load static %}
 ```
 
-* Test Swagger UI
+### Test Swagger UI
 
 Start server, open web browser, login if needed and navigate to 'http://127.0.0.1:8000/api/'
 
-* Sending a payload along with the request
+### Sending a payload along with the request
 
 Update the view where Rest APIs are defined (api.py)
 
@@ -90,7 +93,14 @@ class ContactList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-* Use swagger session login 
+### Use swagger session login 
 
-We can use swagger session login to try out the APIs without having to deal with the authentication that you enforce.
+We can use swagger session login to try out the APIs without having to deal with the enforced authentication.
+
+```
+urlpatterns = [
+    ......
+    url(r'^api/$', schema_view),
+    path('accounts/', include('rest_framework.urls')),  # Swagger login
+]
 ``` 
