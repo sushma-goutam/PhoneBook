@@ -181,3 +181,20 @@ To additionally remove any stopped containers and all unused images (not just da
     
     ............
     Total reclaimed space: 3.471GB
+
+### Creating a django project inside container
+
+    docker-compose run gcserver django-admin startproject mydjangoproject
+    
+### Final step, start service and run Django from the container
+
+    docker-compose up
+    
+    WARNING: Found orphan containers (phonebook_mypython_1) for this project. If you removed or renamed this service 
+    in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+    Creating phonebook_gcserver_1 ... done                                                                                                      
+    Attaching to phonebook_gcserver_1    
+    
+Now, open a web browser and navigate to 'http://localhost:8080'.
+
+My beautiful phoneBook app is running there ♥     
