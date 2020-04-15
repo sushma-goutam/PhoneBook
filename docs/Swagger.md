@@ -1,5 +1,7 @@
 # Using Swagger with Django
 
+Swagger allows the clients to browse/view/try REST APIs before integrating these APIs to their projects.
+
 ### Include new project dependency
 
 ##### Note: 'django-rest-swagger' is not maintained anymore. Update it to use newer alternative.
