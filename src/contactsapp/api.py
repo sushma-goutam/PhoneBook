@@ -3,12 +3,31 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.schemas import AutoSchema
 
 from .models import Contact
 from .serializers import *
 
+import coreapi
+
+
+class ContactListSchema(AutoSchema):
+    "This is needed for passing payload to requests made from swagger."
+    def get_manual_fields(self, path, method):
+        extra_fields = []
+        if method.lower() in ['post', 'put']:
+            extra_fields = [coreapi.Field('id'),
+                            coreapi.Field('first_name'),
+                            coreapi.Field('last_name'),
+                            coreapi.Field('phone_number')
+                            ]
+        manual_fields = super().get_manual_fields(path, method)
+        return manual_fields + extra_fields
+
 
 class UserAuthentication(ObtainAuthToken):
+    schema = ContactListSchema()
+
     def post(self, request, *args, **kwargs):
         serializer= self.serializer_class(
             data=request.data,
@@ -21,6 +40,8 @@ class UserAuthentication(ObtainAuthToken):
 
 
 class ContactList(APIView):
+    schema = ContactListSchema()
+
     def get(self, request):
         model = Contact.objects.all()
         serializer = ContactsSerializer(model, many=True)
@@ -35,6 +56,8 @@ class ContactList(APIView):
 
 
 class ContactDetail(APIView):
+    schema = ContactListSchema()
+
     def get_contact(self, contact_id):
         try:
             model = Contact.objects.get(id=contact_id)

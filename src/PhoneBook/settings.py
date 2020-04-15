@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Django REST Framework Apps
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -153,6 +154,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    # This is needed to fix ''AutoSchema' object has no attribute 'get_link' ” error' in Swagger
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 # Logging configurations
@@ -200,10 +203,11 @@ LOGGING = {
             'level':'INFO',
             'class':'logging.handlers.SysLogHandler',
             'formatter': 'verbose',
-            #'facility': SysLogHandler.LOG_LOCAL2,
-            'facility': SysLogHandler.LOG_USER,
+            # 'facility': SysLogHandler.LOG_LOCAL2,
+            # 'facility': SysLogHandler.LOG_USER,
+            'facility': 'user',
             # Address should be set according to underlying OS
-            #'address': '/dev/log',     # Use it only in a linux system
+            # 'address': '/dev/log',     # Use it only in a linux system
             'address': ('localhost',1024),
             'socktype': socket.SOCK_DGRAM,
         },
@@ -216,7 +220,8 @@ LOGGING = {
         },
         # Passes all messages to the console and file handler.
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['syslog'],
+            # 'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
         },
