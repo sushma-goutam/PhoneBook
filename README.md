@@ -64,3 +64,15 @@ python setup.py bdist_wheel --universal
 * Verify in Web Browser
 
   Navigate to ```http://127.0.0.1:8000/``` and verify that your application is working as expected.
+  
+### Running Django project inside docker container
+
+Build container
+
+    docker-compose build  
+    
+Start Container
+
+    docker-compose up
+
+Open a web browser and navigate to ```http://localhost:8080/```        
