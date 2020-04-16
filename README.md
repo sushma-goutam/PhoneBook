@@ -4,12 +4,19 @@
 
 A PhoneBook created with Django. It allows you to create, update, retrieve and delete a contact.
 
-Since, this is already implementing Database CRUD operations, this is a good candidate for developing a Project using Rest API.
+### REST APIs
+This project also uses Django REST Framework and provides REST APIs for Database CRUD operations.
 
-## How to create a wheel for Django project
-I am using 'setuptools_scm' which already tracks files committed to scm. Therefore, we don't need to use 'MANIFEST.in' file for copying files or directories.
+The REST APIs can be tested in two different ways -
 
-### Instructions
+#### Using A WEB UI
+- Implemented with REST Framework APIView
+- Swagger is also integrated with this project and provides an aditional option for testing APIs.
+
+#### Headless testing
+- Implemented with Python's requests library 
+
+## Creating a wheel for Django project
 
 * Create a virtual environment and activate it
 ```
@@ -35,6 +42,11 @@ I am using 'setuptools_scm' which already tracks files committed to scm. Therefo
 ```
 
   Notice that we have modified the setting file path to match with the installed folder structure.
+
+* Create a setup file for packaging Django project
+
+'setuptools_scm' can tracks files which are already committed to scm. 
+Therefore, there is no need to use 'MANIFEST.in' file for copying files or directories.
 
 * Create a universal wheel
 ```
