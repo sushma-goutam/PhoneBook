@@ -34,7 +34,7 @@ SECRET_KEY = '4oxx9uxx8!arz(k+@no9a!@*tuz#&xo7fcj7p#+u_4_0991@1-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.176']
 
 
 # Application definition
@@ -173,6 +173,12 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        # If you want to write logs in json format, install a third-party library, such as python-json-logger
+        'json': {
+
+        'class': 'pythonjsonlogger.jsonlogger.JsonFormatter'
+
+        },
         'my_formatter': {
             'format': "%(asctime)s %(levelname)s %(module)s [%(name)s:%(lineno)s] %(message)s",
         },
@@ -196,6 +202,7 @@ LOGGING = {
             'mode': 'a',
             'encoding': 'utf-8',
             'formatter': 'my_formatter',
+            #'formatter': 'json',
             'backupCount': 3,
             'maxBytes': 10485760,
         },
@@ -207,8 +214,8 @@ LOGGING = {
             # 'facility': SysLogHandler.LOG_USER,
             'facility': 'user',
             # Address should be set according to underlying OS
-            # 'address': '/dev/log',     # Use it only in a linux system
-            'address': ('localhost',1024),
+            'address': '/dev/log',     # Use it only in a linux system
+            #'address': ('localhost',1024),
             'socktype': socket.SOCK_DGRAM,
         },
     },
@@ -221,7 +228,7 @@ LOGGING = {
         # Passes all messages to the console and file handler.
         'django': {
             'handlers': ['syslog'],
-            # 'handlers': ['console', 'file'],
+            #'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
         },

@@ -1,5 +1,33 @@
 # Logging in Django
 
+Django is the most popular web application framework for Python. 
+It uses the standard Python logging module and provides a hierarchy of predefined loggers, including:
+
+    django, the root logger. All other loggers derive from this.
+    django.server for server logs.
+    django.request for web requests.
+    django.db for database queries.
+
+If Django is running in debug mode, all info-level or higher messages that aren’t from django.server are sent to the console. 
+Otherwise, all critical-level messages that aren’t from django.server are emailed to the administrators via the AdminEmailHandler. 
+You can disable this, but you should only do this if you’ve already implemented another method of monitoring logs.
+
+### Centralizing Standalone Django Application Logs
+
+With a standalone application, you can ship logs directly from your application’s logging framework to a centralization 
+service. For example, you can log to syslog using the SysLogHandler built into the Python logging framework. 
+
+Here, we log all info-level or higher messages to a server located at at syslog.example.com
+
+    'handlers': {
+        'syslog': {        
+            'level': 'DEBUG',            
+            'class': 'logging.handlers.SysLogHandler',            
+            'facility': 'local7',            
+            'address': ('syslog.example.com', 514),
+         },    
+    }
+
 ### Example of creating an instance of custom logger
 ``` 
 app_logger = logging.getLogger('gclogger')
@@ -100,6 +128,40 @@ LOGGING = {
 ### Writing to syslog
 
 Logs will be available in /var/log/syslog
+
+Verified on 4th April by writting to Raspberry PI Board
+
+This is what was changed in settings.py to get it working
+
+    ALLOWED_HOSTS = ['192.168.1.176']
+    
+    'handlers': {
+        ......
+        'syslog': {
+                'level':'INFO',
+                'class':'logging.handlers.SysLogHandler',
+                'formatter': 'verbose',
+                # 'facility': SysLogHandler.LOG_LOCAL2,
+                # 'facility': SysLogHandler.LOG_USER,
+                'facility': 'user',
+                # Address should be set according to underlying OS
+                'address': '/dev/log',     # Use it only in a linux system
+                #'address': ('localhost',1024),
+                'socktype': socket.SOCK_DGRAM,
+            },
+        }
+        
+    'loggers': {
+        ......
+        # Passes all messages to the console and file handler.
+        'django': {
+            'handlers': ['syslog'],
+            #'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },    
+     }   
+
 
 The SysLogHandler class, located in the logging.handlers module,
 supports sending logging messages to a remote or local Unix syslog.
