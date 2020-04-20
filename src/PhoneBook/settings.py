@@ -163,30 +163,10 @@ REST_FRAMEWORK = {
 CONSOLE_LOGGING_FILE_LOCATION = os.path.join(BASE_DIR, 'django-server.log')
 
 if 'Windows' in platform.platform():
-    gc_syslog = {
-        'level': 'INFO',
-        'class': 'logging.handlers.SysLogHandler',
-        'formatter': 'verbose',
-        'facility': 'user',
-        # Address should be set according to underlying OS
-        # 'address': '/dev/log',  # Use it only in a linux system
-        'address': ('localhost',1024),
-        'socktype': socket.SOCK_DGRAM,
-    }
+    syslog_handler = ['console', 'file']
 
 else:
-    gc_syslog = {
-        'level': 'INFO',
-        'class': 'logging.handlers.SysLogHandler',
-        'formatter': 'verbose',
-        # 'facility': SysLogHandler.LOG_LOCAL2,
-        # 'facility': SysLogHandler.LOG_USER,
-        'facility': 'user',
-        # Address should be set according to underlying OS
-        'address': '/dev/log',  # Use it only in a linux system
-        # 'address': ('localhost',1024),
-        'socktype': socket.SOCK_DGRAM,
-    },
+    syslog_handler = ['syslog']
 
 LOGGING = {
     'version': 1,
@@ -233,7 +213,18 @@ LOGGING = {
             'backupCount': 3,
             'maxBytes': 10485760,
         },
-        'syslog': gc_syslog,
+        'syslog': {
+            'level': 'INFO',
+            'class': 'logging.handlers.SysLogHandler',
+            'formatter': 'verbose',
+            # 'facility': SysLogHandler.LOG_LOCAL2,
+            # 'facility': SysLogHandler.LOG_USER,
+            'facility': 'user',
+            # Address should be set according to underlying OS
+            'address': '/dev/log',  # Use it only in a linux system
+            # 'address': ('localhost',1024),
+            'socktype': socket.SOCK_DGRAM,
+        },
     },
     'loggers': {
         # Root logger: All INFO level messages (or higher) will be printed to the console
@@ -244,7 +235,7 @@ LOGGING = {
         # Passes all messages to the console and file handler.
         'django': {
             # 'handlers': ['syslog'],
-            'handlers': ['console', 'file'],
+            'handlers': syslog_handler,
             'level': 'INFO',
             'propagate': False,
         },
