@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import logging
+import platform
 import socket
 from logging.handlers import SysLogHandler
 
@@ -34,7 +35,7 @@ SECRET_KEY = '4oxx9uxx8!arz(k+@no9a!@*tuz#&xo7fcj7p#+u_4_0991@1-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.176']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.176']
 
 
 # Application definition
@@ -161,6 +162,32 @@ REST_FRAMEWORK = {
 # Logging configurations
 CONSOLE_LOGGING_FILE_LOCATION = os.path.join(BASE_DIR, 'django-server.log')
 
+if 'Windows' in platform.platform():
+    gc_syslog = {
+        'level': 'INFO',
+        'class': 'logging.handlers.SysLogHandler',
+        'formatter': 'verbose',
+        'facility': 'user',
+        # Address should be set according to underlying OS
+        # 'address': '/dev/log',  # Use it only in a linux system
+        'address': ('localhost',1024),
+        'socktype': socket.SOCK_DGRAM,
+    }
+
+else:
+    gc_syslog = {
+        'level': 'INFO',
+        'class': 'logging.handlers.SysLogHandler',
+        'formatter': 'verbose',
+        # 'facility': SysLogHandler.LOG_LOCAL2,
+        # 'facility': SysLogHandler.LOG_USER,
+        'facility': 'user',
+        # Address should be set according to underlying OS
+        'address': '/dev/log',  # Use it only in a linux system
+        # 'address': ('localhost',1024),
+        'socktype': socket.SOCK_DGRAM,
+    },
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -206,18 +233,7 @@ LOGGING = {
             'backupCount': 3,
             'maxBytes': 10485760,
         },
-        'syslog': {
-            'level':'INFO',
-            'class':'logging.handlers.SysLogHandler',
-            'formatter': 'verbose',
-            # 'facility': SysLogHandler.LOG_LOCAL2,
-            # 'facility': SysLogHandler.LOG_USER,
-            'facility': 'user',
-            # Address should be set according to underlying OS
-            'address': '/dev/log',     # Use it only in a linux system
-            #'address': ('localhost',1024),
-            'socktype': socket.SOCK_DGRAM,
-        },
+        'syslog': gc_syslog,
     },
     'loggers': {
         # Root logger: All INFO level messages (or higher) will be printed to the console
@@ -227,8 +243,8 @@ LOGGING = {
         },
         # Passes all messages to the console and file handler.
         'django': {
-            'handlers': ['syslog'],
-            #'handlers': ['console', 'file'],
+            # 'handlers': ['syslog'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
         },
