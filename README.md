@@ -19,7 +19,7 @@ The REST APIs can be tested in two different ways -
 ## Creating a wheel for Django project
 
 * Create a virtual environment and activate it
-```
+```bash
   python -m virtualenv env
   env\Scripts\activate
 ```
@@ -27,7 +27,7 @@ The REST APIs can be tested in two different ways -
 * Create a wrapper for ```manage.py file``` 
 
   Name this file as ```__main.py__``` and add below content to it-
-```
+```bash
   import os
   from django.core.management import execute_from_command_line
 
@@ -49,19 +49,19 @@ The REST APIs can be tested in two different ways -
 Therefore, there is no need to use 'MANIFEST.in' file for copying files or directories.
 
 * Create a universal wheel
-```
+```bash
 python setup.py bdist_wheel --universal
 ```
 
 * Install wheel in virtual environment
-```
+```bash
   pip install "dist\PhoneBook-0.1.dev8+g1e0cecb.d20200309-py2.py3-none-any.whl"
 ``` 
 
 * Verify that project files are copied to ```env\Lib\site-packages``` folder
 
 * Start Django server using command ```python -m src.__main__ runserver```
-```
+```bash
   (env) C:\Sushma>python -m src.__main__ runserver
   Watching for file changes with StatReloader
   Performing system checks...
