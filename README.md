@@ -1,3 +1,8 @@
+---
+title: "PhoneBook"
+section: "Application Doc"
+description: "Home page of PhoneBook application."
+---
 ![Django CI](https://github.com/sushma-goutam/PhoneBook/workflows/Django%20CI/badge.svg?branch=master)
 
 # Django PhoneBook
@@ -15,6 +20,15 @@ The REST APIs can be tested in two different ways -
 
 #### Headless testing
 - Implemented with Python's requests library 
+
+#### API Documentation
+| Path | Description |
+| --- | --- |
+| /index | Home page of PhoneBook application. |
+| /create | Create a new contact. |
+| /edit | Edit an existing contact. This opens a new page for editing contact fields. |
+| /update | Update an existing contact |
+| /delete | Delete an existing contact |
 
 ## Creating a wheel for Django project
 
@@ -50,7 +64,7 @@ Therefore, there is no need to use 'MANIFEST.in' file for copying files or direc
 
 * Create a universal wheel
 ```bash
-python setup.py bdist_wheel --universal
+  python setup.py bdist_wheel --universal
 ```
 
 * Install wheel in virtual environment
@@ -75,7 +89,7 @@ python setup.py bdist_wheel --universal
 
 * Verify in Web Browser
 
-  Navigate to ```http://127.0.0.1:8000/``` and verify that your application is working as expected.
+  Navigate to [http://127.0.0.1:8000/][URL] and verify that your application is working as expected.
   
 ### Running Django project inside docker container
 
@@ -87,4 +101,7 @@ Start Container
 
     docker-compose up
 
-Open a web browser and navigate to ```http://localhost:8080/```        
+Open a web browser and navigate to [http://localhost:8080/][DockerURL]       
+
+[URL]: http://127.0.0.1:8000/
+[DockerURL]: http://localhost:8080/
