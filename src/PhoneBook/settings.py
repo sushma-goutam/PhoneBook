@@ -37,7 +37,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.176']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,9 +68,9 @@ ROOT_URLCONF = 'PhoneBook.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [#os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'contactsapp', 'templates', 'contactsapp'),
-                ],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'contactsapp', 'templates', 'contactsapp'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,7 +146,6 @@ STATICFILES_DIRS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -162,11 +160,10 @@ REST_FRAMEWORK = {
 # Logging configurations
 CONSOLE_LOGGING_FILE_LOCATION = os.path.join(BASE_DIR, 'django-server.log')
 
+syslog_handler = ['syslog']
 if 'Windows' in platform.platform():
     syslog_handler = ['console', 'file']
 
-else:
-    syslog_handler = ['syslog']
 
 LOGGING = {
     'version': 1,
@@ -182,9 +179,7 @@ LOGGING = {
         },
         # If you want to write logs in json format, install a third-party library, such as python-json-logger
         'json': {
-
-        'class': 'pythonjsonlogger.jsonlogger.JsonFormatter'
-
+            'class': 'pythonjsonlogger.jsonlogger.JsonFormatter'
         },
         'my_formatter': {
             'format': "%(asctime)s %(levelname)s %(module)s [%(name)s:%(lineno)s] %(message)s",
@@ -217,12 +212,11 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.SysLogHandler',
             'formatter': 'verbose',
-            # 'facility': SysLogHandler.LOG_LOCAL2,
             # 'facility': SysLogHandler.LOG_USER,
             'facility': 'user',
             # Address should be set according to underlying OS
-            'address': '/dev/log',  # Use it only in a linux system
-            # 'address': ('localhost',1024),
+            # 'address': '/dev/log',  # Use it only in a linux system
+            'address': ('127.0.0.1',8000),  # Use it for Windows
             'socktype': socket.SOCK_DGRAM,
         },
     },
@@ -234,7 +228,6 @@ LOGGING = {
         },
         # Passes all messages to the console and file handler.
         'django': {
-            # 'handlers': ['syslog'],
             'handlers': syslog_handler,
             'level': 'INFO',
             'propagate': False,
@@ -248,7 +241,7 @@ LOGGING = {
             'handlers': ['file'],
             'propagate': False,
         },
-        'gclogger': {
+        'pblogger': {
             'handlers': ['syslog'],
             'level': 'INFO',
             'propagate': True,

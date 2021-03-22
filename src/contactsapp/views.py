@@ -13,7 +13,7 @@ from .models import Contact
 # logzero.logfile("rotating-logfile.log", maxBytes=1e6, backupCount=3)
 
 # Log to syslog,
-logger = logging.getLogger('gclogger')
+logger = logging.getLogger('pblogger')
 
 # def hello(request):
 #    today = datetime.datetime.now().date()
