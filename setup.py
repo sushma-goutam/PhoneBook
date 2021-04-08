@@ -38,7 +38,7 @@ setup(
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     install_requires=[
-        'Django>=2.2,<3.1;python_version>="3.7"',
+        'Django>=2.2,<3.2;python_version>="3.7"',
     ],
     license="BSD",
     zip_safe=False,
